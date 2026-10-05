@@ -3,130 +3,342 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ESP: Energy-Score Policy for One-Step Multimodal Action Generation</title>
-  <meta name="description" content="ESP trains the action head with the strictly proper energy score and generates multimodal action chunks in a single network evaluation (NFE=1).">
 
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ESP: Energy-Score Policy for One-Step Multimodal Action Generation">
+  <meta name="description" content="ESP trains the action head with the strictly proper energy score and generates multimodal robot action chunks in a single network evaluation (NFE=1).">
+  <meta name="keywords" content="energy score, vision-language-action, VLA, robot policy, one-step generation, multimodal action, flow matching, robot learning">
+  <!-- TODO: List all authors -->
+  <meta name="author" content="Lilika Makabe">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ESP: Energy-Score Policy for One-Step Multimodal Action Generation">
+  <meta property="og:description" content="ESP trains the action head with the strictly proper energy score and generates multimodal robot action chunks in a single network evaluation (NFE=1).">
+  <!-- TODO: Update if the page is served from a different URL -->
+  <meta property="og:url" content="https://lilika-makabe.github.io/esp-project-page/">
+  <meta property="og:image" content="https://lilika-makabe.github.io/esp-project-page/static/images/teaser.png">
+  <meta property="og:image:alt" content="ESP (Ours): one-step generation and multimodality">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ESP: Energy-Score Policy for One-Step Multimodal Action Generation">
+  <meta name="twitter:description" content="ESP trains the action head with the strictly proper energy score and generates multimodal robot action chunks in a single network evaluation (NFE=1).">
+  <meta name="twitter:image" content="https://lilika-makabe.github.io/esp-project-page/static/images/teaser.png">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="ESP: Energy-Score Policy for One-Step Multimodal Action Generation">
+  <!-- TODO: One citation_author per author, "Last, First" -->
+  <meta name="citation_author" content="Makabe, Lilika">
+
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>ESP: Energy-Score Policy for One-Step Multimodal Action Generation</title>
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/esp.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "ESP: Energy-Score Policy for One-Step Multimodal Action Generation",
+    "description": "ESP trains the action head with the strictly proper energy score and generates multimodal robot action chunks in a single network evaluation (NFE=1).",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Lilika Makabe"
+      }
+    ],
+    "url": "https://lilika-makabe.github.io/esp-project-page/",
+    "image": "https://lilika-makabe.github.io/esp-project-page/static/images/teaser.png",
+    "keywords": ["energy score", "vision-language-action", "robot policy", "one-step generation", "multimodal action"]
+  }
+  </script>
 </head>
 <body>
 
-  <!-- Title -->
-  <section class="section section-title">
-    <div class="container">
-      <h1 class="title">
-        ESP: Energy-Score Policy for <span class="nowrap">One-Step</span><br>
-        Multimodal Action Generation
-      </h1>
 
-      <!--
-      Authors / links (uncomment and fill in)
-      <p class="authors">
-        <a href="https://lilika-makabe.github.io">Lilika Makabe</a><sup>1</sup>,
-        Co-Author<sup>2</sup>
-      </p>
-      <p class="affiliations"><sup>1</sup>Affiliation A &nbsp; <sup>2</sup>Affiliation B</p>
-      <div class="links">
-        <a class="link-button" href="#">Paper</a>
-        <a class="link-button" href="#">arXiv</a>
-        <a class="link-button" href="#">Code</a>
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">ESP: Energy-Score Policy for One-Step Multimodal Action Generation</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Add co-authors, e.g.
+              <span class="author-block"><a href="AUTHOR_LINK" target="_blank">Co-Author</a><sup>2</sup>,</span>
+              -->
+              <span class="author-block">
+                <a href="https://lilika-makabe.github.io" target="_blank">Lilika Makabe</a>
+              </span>
+            </div>
+
+            <!-- TODO: Institution and conference/journal
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Institution Name<br>Conference name and year</span>
+            </div>
+            -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- TODO: Paper PDF link -->
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- TODO: Code repository link -->
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- TODO: arXiv abstract link -->
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      -->
     </div>
   </section>
+
 
   <!-- Teaser -->
-  <section class="section section-teaser">
-    <div class="container">
-      <img class="teaser" src="static/images/teaser.png" width="1352" height="398"
-           alt="ESP (Ours): NFE=1. The action head f_theta(z_i, c) maps noise z_i to actions a_i, achieving one-step generation and multimodality.">
-      <p class="lead">
-        Flow matching can generate multimodal actions but requires integration of a velocity field over multiple network evaluations (NFE&gt;1). Mean squared error (MSE) regression is single-step (NFE=1) but collapses to the conditional mean and cannot represent multimodality. Trained with the strictly proper energy score, ESP generates multimodal actions in one network evaluation (NFE=1).
-      </p>
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img class="teaser-image" src="static/images/teaser.png" width="1352" height="398"
+             alt="ESP (Ours): NFE=1. The action head maps noise samples to actions, achieving one-step generation and multimodality.">
+        <h2 class="subtitle has-text-centered">
+          Flow matching can generate multimodal actions but requires integration of a velocity field over multiple network evaluations (NFE&gt;1). Mean squared error (MSE) regression is single-step (NFE=1) but collapses to the conditional mean and cannot represent multimodality. Trained with the strictly proper energy score, ESP generates multimodal actions in one network evaluation (NFE=1).
+        </h2>
+      </div>
     </div>
   </section>
+  <!-- End teaser -->
 
-  <!-- Abstract -->
-  <section class="section band">
-    <div class="container">
-      <h2 class="section-heading">Abstract</h2>
-      <p class="abstract">
-        Generative action models based on diffusion and flow matching have been increasingly adopted in vision-language-action (VLA) policies for their ability to capture diverse behaviors, including multiple valid action sequences under the same observation and instruction. Their iterative sampling procedures, however, require repeated network evaluations to generate each action chunk, increasing inference latency in closed-loop control. We propose ESP (Energy-Score Policy), a teacher-free approach that maps policy context and noise directly to an action chunk in a single network evaluation. ESP trains the action head with the energy score rather than mean squared error. Whereas squared-error regression targets the conditional mean, the energy score is strictly proper: its expected value is uniquely minimized by the target distribution. This provides a principled objective for learning multimodal action distributions without iterative sampling, with exact recovery at the population optimum when the model can represent the target distribution. Experiments on both simulation and real-world manipulation tasks demonstrate competitive task success with substantially lower action-generation latency than the flow matching baseline. These results support direct distributional learning as an efficient alternative to iterative generative robot policies.
-      </p>
-    </div>
-  </section>
-
-  <!-- One-step Multimodal Generation -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-heading">One-step Multimodal Generation</h2>
-      <div class="carousel" id="onestep-carousel" aria-roledescription="carousel" aria-label="One-step multimodal generation">
-        <div class="carousel-viewport">
-          <div class="slide"><img src="static/images/onestep_esp.gif" width="960" height="540" alt="ESP (ours): one network evaluation maps noise samples to multimodal target actions."></div>
-          <div class="slide"><img src="static/images/onestep_flow_matching.gif" width="960" height="540" alt="Flow matching: iterative sampling over multiple network evaluations." loading="lazy"></div>
-          <div class="slide"><img src="static/images/onestep_mse.gif" width="960" height="540" alt="MSE regression: one network evaluation, but outputs collapse to the conditional mean." loading="lazy"></div>
-          <button class="carousel-nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M30.83 32.67l-9.17-9.17 9.17-9.17L28 11.5l-12 12 12 12z"/></svg></button>
-          <button class="carousel-nav next" type="button" aria-label="Next"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M17.17 32.92l9.17-9.17-9.17-9.17L20 11.75l12 12-12 12z"/></svg></button>
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Generative action models based on diffusion and flow matching have been increasingly adopted in vision-language-action (VLA) policies for their ability to capture diverse behaviors, including multiple valid action sequences under the same observation and instruction. Their iterative sampling procedures, however, require repeated network evaluations to generate each action chunk, increasing inference latency in closed-loop control. We propose ESP (Energy-Score Policy), a teacher-free approach that maps policy context and noise directly to an action chunk in a single network evaluation. ESP trains the action head with the energy score rather than mean squared error. Whereas squared-error regression targets the conditional mean, the energy score is strictly proper: its expected value is uniquely minimized by the target distribution. This provides a principled objective for learning multimodal action distributions without iterative sampling, with exact recovery at the population optimum when the model can represent the target distribution. Experiments on both simulation and real-world manipulation tasks demonstrate competitive task success with substantially lower action-generation latency than the flow matching baseline. These results support direct distributional learning as an efficient alternative to iterative generative robot policies.
+            </p>
+          </div>
         </div>
-        <div class="carousel-dots"></div>
       </div>
-      <p class="method-legend">
-        <button type="button" class="legend-esp" data-carousel="onestep-carousel" data-slide="0">ESP</button> /
-        <button type="button" class="legend-fm" data-carousel="onestep-carousel" data-slide="1">Flow matching</button> /
-        <button type="button" class="legend-mse" data-carousel="onestep-carousel" data-slide="2">MSE</button>
-      </p>
     </div>
   </section>
+  <!-- End paper abstract -->
 
-  <!-- Real-world Results -->
-  <section class="section band">
-    <div class="container">
-      <h2 class="section-heading">Real-world Results</h2>
 
-      <h3 class="task-heading">Drawer Closing</h3>
-      <div class="carousel" aria-roledescription="carousel" aria-label="Drawer closing">
-        <div class="carousel-viewport">
-          <div class="slide"><video src="static/videos/drawer_1.mp4" width="1280" height="360" muted loop playsinline preload="metadata"></video></div>
-          <div class="slide"><video src="static/videos/drawer_2.mp4" width="1280" height="360" muted loop playsinline preload="none"></video></div>
-          <div class="slide"><video src="static/videos/drawer_3.mp4" width="1280" height="360" muted loop playsinline preload="none"></video></div>
-          <div class="slide"><video src="static/videos/drawer_4.mp4" width="1280" height="360" muted loop playsinline preload="none"></video></div>
-          <button class="carousel-nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M30.83 32.67l-9.17-9.17 9.17-9.17L28 11.5l-12 12 12 12z"/></svg></button>
-          <button class="carousel-nav next" type="button" aria-label="Next"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M17.17 32.92l9.17-9.17-9.17-9.17L20 11.75l12 12-12 12z"/></svg></button>
+  <!-- One-step multimodal generation (image carousel) -->
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">One-step Multimodal Generation</h2>
+        <div id="onestep-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/onestep_esp.gif" width="960" height="540" alt="ESP (ours): one network evaluation maps noise samples to multimodal target actions." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+              <span class="method-esp">ESP (ours)</span>: multimodal actions in one network evaluation (NFE=1).
+            </h2>
+          </div>
+          <div class="item">
+            <img src="static/images/onestep_flow_matching.gif" width="960" height="540" alt="Flow matching: iterative sampling over multiple network evaluations." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+              <span class="method-fm">Flow matching</span>: multimodal, but integrates a velocity field over multiple network evaluations (NFE&gt;1).
+            </h2>
+          </div>
+          <div class="item">
+            <img src="static/images/onestep_mse.gif" width="960" height="540" alt="MSE regression: one network evaluation, but outputs collapse to the conditional mean." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">
+              <span class="method-mse">MSE regression</span>: one network evaluation, but collapses to the conditional mean.
+            </h2>
+          </div>
         </div>
-        <div class="carousel-dots"></div>
       </div>
+    </div>
+  </section>
+  <!-- End one-step multimodal generation -->
 
-      <h3 class="task-heading">Pick &amp; Place</h3>
-      <div class="carousel" aria-roledescription="carousel" aria-label="Pick and place">
-        <div class="carousel-viewport">
-          <div class="slide"><video src="static/videos/pick_1.mp4" width="1440" height="270" muted loop playsinline preload="metadata"></video></div>
-          <div class="slide"><video src="static/videos/pick_2.mp4" width="1440" height="270" muted loop playsinline preload="none"></video></div>
-          <div class="slide"><video src="static/videos/pick_3.mp4" width="1440" height="270" muted loop playsinline preload="none"></video></div>
-          <div class="slide"><video src="static/videos/pick_4.mp4" width="1440" height="270" muted loop playsinline preload="none"></video></div>
-          <button class="carousel-nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M30.83 32.67l-9.17-9.17 9.17-9.17L28 11.5l-12 12 12 12z"/></svg></button>
-          <button class="carousel-nav next" type="button" aria-label="Next"><svg viewBox="0 0 48 48" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M17.17 32.92l9.17-9.17-9.17-9.17L20 11.75l12 12-12 12z"/></svg></button>
+
+  <!-- Real-world results (video carousels) -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Real-world Results</h2>
+
+        <h3 class="title is-4 has-text-centered task-title">Drawer Closing</h3>
+        <div id="drawer-carousel" class="carousel results-carousel">
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1280" height="360">
+              <source src="static/videos/drawer_1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1280" height="360">
+              <source src="static/videos/drawer_2.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1280" height="360">
+              <source src="static/videos/drawer_3.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1280" height="360">
+              <source src="static/videos/drawer_4.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
-        <div class="carousel-dots"></div>
+
+        <h3 class="title is-4 has-text-centered task-title">Pick &amp; Place</h3>
+        <div id="pick-carousel" class="carousel results-carousel">
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1440" height="270">
+              <source src="static/videos/pick_1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1440" height="270">
+              <source src="static/videos/pick_2.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1440" height="270">
+              <source src="static/videos/pick_3.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-video">
+            <video controls muted loop playsinline preload="metadata" width="1440" height="270">
+              <source src="static/videos/pick_4.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+  <!-- End real-world results -->
 
-  <!-- Video -->
-  <section class="section">
+
+  <!-- TODO: Video presentation (set the YouTube ID and uncomment)
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Video</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <div class="publication-video">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+
+  <!-- TODO: BibTeX citation (fill in and uncomment)
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{makabe2026esp,
+  title={ESP: Energy-Score Policy for One-Step Multimodal Action Generation},
+  author={Makabe, Lilika and ...},
+  booktitle={...},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+  -->
+  </main>
+
+
+  <footer class="footer">
     <div class="container">
-      <h3 class="task-heading video-heading">Video</h3>
-      <!--
-      <div class="video-embed">
-        <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="ESP video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
       </div>
-      -->
     </div>
-  </section>
+  </footer>
 
-  <script src="static/js/index.js"></script>
 </body>
 </html>

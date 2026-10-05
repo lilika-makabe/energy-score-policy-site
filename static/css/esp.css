@@ -1,0 +1,38 @@
+/* ESP-specific additions on top of the template's index.css */
+
+:root {
+  --esp: #d7185e;
+  --fm: #2063d8;
+  --mse: #6e788a;
+}
+
+.teaser-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.method-esp,
+.method-fm,
+.method-mse {
+  font-weight: 700;
+}
+
+.method-esp { color: var(--esp); }
+.method-fm { color: var(--fm); }
+.method-mse { color: var(--mse); }
+
+.task-title {
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem !important;
+  color: var(--text-primary);
+}
+
+.title.is-3 + .task-title {
+  margin-top: 0;
+}
+
+.results-carousel video {
+  display: block;
+}

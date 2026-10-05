@@ -1,97 +1,146 @@
-(function () {
-  "use strict";
+window.HELP_IMPROVE_VIDEOJS = false;
 
-  function initCarousel(root) {
-    var slides = Array.prototype.slice.call(root.querySelectorAll(".slide"));
-    var dotsWrap = root.querySelector(".carousel-dots");
-    var prev = root.querySelector(".carousel-nav.prev");
-    var next = root.querySelector(".carousel-nav.next");
-    var legend = root.id
-      ? Array.prototype.slice.call(document.querySelectorAll('[data-carousel="' + root.id + '"]'))
-      : [];
-    var current = 0;
-    var inView = false;
-
-    root.tabIndex = 0;
-
-    var dots = slides.map(function (_, i) {
-      var dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "carousel-dot";
-      dot.setAttribute("aria-label", "Slide " + (i + 1) + " of " + slides.length);
-      dot.addEventListener("click", function () { go(i); });
-      dotsWrap.appendChild(dot);
-      return dot;
-    });
-
-    function syncVideos() {
-      slides.forEach(function (slide, i) {
-        var video = slide.querySelector("video");
-        if (!video) return;
-        if (i === current && inView) {
-          if (video.preload === "none") video.preload = "auto";
-          var playing = video.play();
-          if (playing && playing.catch) playing.catch(function () {});
-        } else {
-          video.pause();
-        }
-      });
-    }
-
-    function go(index) {
-      var changed = index !== current;
-      current = (index + slides.length) % slides.length;
-      slides.forEach(function (slide, i) {
-        var active = i === current;
-        slide.classList.toggle("is-active", active);
-        slide.setAttribute("aria-hidden", active ? "false" : "true");
-        dots[i].classList.toggle("is-active", active);
-        dots[i].setAttribute("aria-current", active ? "true" : "false");
-      });
-      legend.forEach(function (el) {
-        el.setAttribute("aria-current", Number(el.dataset.slide) === current ? "true" : "false");
-      });
-      if (changed) {
-        var video = slides[current].querySelector("video");
-        if (video) video.currentTime = 0;
-      }
-      syncVideos();
-    }
-
-    prev.addEventListener("click", function () { go(current - 1); });
-    next.addEventListener("click", function () { go(current + 1); });
-
-    legend.forEach(function (el) {
-      el.addEventListener("click", function () { go(Number(el.dataset.slide)); });
-    });
-
-    root.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") { go(current - 1); e.preventDefault(); }
-      if (e.key === "ArrowRight") { go(current + 1); e.preventDefault(); }
-    });
-
-    var touchX = null;
-    root.addEventListener("touchstart", function (e) {
-      touchX = e.touches[0].clientX;
-    }, { passive: true });
-    root.addEventListener("touchend", function (e) {
-      if (touchX === null) return;
-      var dx = e.changedTouches[0].clientX - touchX;
-      if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
-      touchX = null;
-    });
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        inView = entries[0].isIntersecting;
-        syncVideos();
-      }, { threshold: 0.25 }).observe(root);
+// More Works Dropdown Functionality
+function toggleMoreWorks() {
+    const dropdown = document.getElementById('moreWorksDropdown');
+    const button = document.querySelector('.more-works-btn');
+    
+    if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+        button.classList.remove('active');
     } else {
-      inView = true;
+        dropdown.classList.add('show');
+        button.classList.add('active');
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const container = document.querySelector('.more-works-container');
+    const dropdown = document.getElementById('moreWorksDropdown');
+    const button = document.querySelector('.more-works-btn');
+    
+    if (container && !container.contains(event.target)) {
+        dropdown.classList.remove('show');
+        button.classList.remove('active');
+    }
+});
+
+// Close dropdown on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const dropdown = document.getElementById('moreWorksDropdown');
+        const button = document.querySelector('.more-works-btn');
+        if (!dropdown || !button) return;
+        dropdown.classList.remove('show');
+        button.classList.remove('active');
+    }
+});
+
+// Copy BibTeX to clipboard
+function copyBibTeX() {
+    const bibtexElement = document.getElementById('bibtex-code');
+    const button = document.querySelector('.copy-bibtex-btn');
+    const copyText = button.querySelector('.copy-text');
+    
+    if (bibtexElement) {
+        navigator.clipboard.writeText(bibtexElement.textContent).then(function() {
+            // Success feedback
+            button.classList.add('copied');
+            copyText.textContent = 'Cop';
+            
+            setTimeout(function() {
+                button.classList.remove('copied');
+                copyText.textContent = 'Copy';
+            }, 2000);
+        }).catch(function(err) {
+            console.error('Failed to copy: ', err);
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = bibtexElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            button.classList.add('copied');
+            copyText.textContent = 'Cop';
+            setTimeout(function() {
+                button.classList.remove('copied');
+                copyText.textContent = 'Copy';
+            }, 2000);
+        });
+    }
+}
+
+// Scroll to top functionality
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Show/hide scroll to top button
+window.addEventListener('scroll', function() {
+    const scrollButton = document.querySelector('.scroll-to-top');
+    if (window.pageYOffset > 300) {
+        scrollButton.classList.add('visible');
+    } else {
+        scrollButton.classList.remove('visible');
+    }
+});
+
+// Video carousel autoplay when in view
+function setupVideoCarouselAutoplay() {
+    const carouselVideos = document.querySelectorAll('.results-carousel video');
+    
+    if (carouselVideos.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                // Video is in view, play it
+                video.play().catch(e => {
+                    // Autoplay failed, probably due to browser policy
+                    console.log('Autoplay prevented:', e);
+                });
+            } else {
+                // Video is out of view, pause it
+                video.pause();
+            }
+        });
+    }, {
+        threshold: 0.5 // Trigger when 50% of the video is visible
+    });
+    
+    carouselVideos.forEach(video => {
+        observer.observe(video);
+    });
+}
+
+$(document).ready(function() {
+    // Check for click events on the navbar burger icon
+
+    var options = {
+		slidesToScroll: 1,
+		slidesToShow: 1,
+		loop: true,
+		infinite: true,
+		// Clips run 5-22 s, so let the viewer advance slides instead of a 5 s timer.
+		autoplay: false,
+		autoplaySpeed: 5000,
+		// The default breakpoints show 2-3 slides below 768px; the clips are wide, so always show one.
+		breakpoints: [],
     }
 
-    go(0);
-  }
+	// Initialize all div with carousel class
+    var carousels = bulmaCarousel.attach('.carousel', options);
+	
+    bulmaSlider.attach();
+    
+    // Setup video autoplay for carousel
+    setupVideoCarouselAutoplay();
 
-  Array.prototype.forEach.call(document.querySelectorAll(".carousel"), initCarousel);
-})();
+})
