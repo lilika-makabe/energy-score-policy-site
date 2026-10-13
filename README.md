@@ -7,8 +7,9 @@ index.html
 static/css/index.css      # template styles (unchanged)
 static/css/esp.css        # ESP-specific additions (method colors, teaser, task headings)
 static/js/index.js        # template script; carousel autoplay off, one slide at every width
-static/images/            # teaser + one-step generation GIFs
-static/videos/            # real-world results (MP4, converted from the original GIFs)
+static/images/            # teaser
+static/videos/            # method_*.mp4: one-step generation clips rendered from esp-method-video (Remotion, Method-* compositions)
+                          # drawer/pick/plate_*.mp4: real-world rollouts converted from the with-outcome GIFs
 ```
 
 ## Local preview

@@ -171,26 +171,32 @@
   <!-- End paper abstract -->
 
 
-  <!-- One-step multimodal generation (image carousel) -->
+  <!-- One-step multimodal generation (video carousel) -->
   <section class="hero is-small">
     <div class="hero-body">
       <div class="container">
         <h2 class="title is-3 has-text-centered">One-step Multimodal Generation</h2>
         <div id="onestep-carousel" class="carousel results-carousel">
           <div class="item">
-            <img src="static/images/onestep_esp.gif" width="960" height="540" alt="ESP (ours): one network evaluation maps noise samples to multimodal target actions." loading="lazy"/>
+            <video muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="ESP (ours): one network evaluation maps noise samples to multimodal target actions.">
+              <source src="static/videos/method_esp.mp4" type="video/mp4">
+            </video>
             <h2 class="subtitle has-text-centered">
               <span class="method-esp">ESP (ours)</span>: multimodal actions in one network evaluation (NFE=1).
             </h2>
           </div>
           <div class="item">
-            <img src="static/images/onestep_flow_matching.gif" width="960" height="540" alt="Flow matching: iterative sampling over multiple network evaluations." loading="lazy"/>
+            <video muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="Flow matching: iterative sampling over multiple network evaluations.">
+              <source src="static/videos/method_flow.mp4" type="video/mp4">
+            </video>
             <h2 class="subtitle has-text-centered">
               <span class="method-fm">Flow matching</span>: multimodal, but integrates a velocity field over multiple network evaluations (NFE&gt;1).
             </h2>
           </div>
           <div class="item">
-            <img src="static/images/onestep_mse.gif" width="960" height="540" alt="MSE regression: one network evaluation, but outputs collapse to the conditional mean." loading="lazy"/>
+            <video muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="MSE regression: one network evaluation, but outputs collapse to the conditional mean.">
+              <source src="static/videos/method_mse.mp4" type="video/mp4">
+            </video>
             <h2 class="subtitle has-text-centered">
               <span class="method-mse">MSE regression</span>: one network evaluation, but collapses to the conditional mean.
             </h2>
